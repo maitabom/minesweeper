@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:minesweeper/components/campo_widget.dart';
 import 'package:minesweeper/components/resultado_widget.dart';
+import 'package:minesweeper/components/tabuleiro_widget.dart';
 import 'package:minesweeper/models/campo.dart';
+import 'package:minesweeper/models/tabuleiro.dart';
 
-class CampoMinadoPage extends StatelessWidget {
+class CampoMinadoPage extends StatefulWidget {
   const CampoMinadoPage({super.key});
 
+  @override
+  State<CampoMinadoPage> createState() => _CampoMinadoPageState();
+}
+
+class _CampoMinadoPageState extends State<CampoMinadoPage> {
   void _reiniciar() {}
 
   void _abrir(Campo campo) {}
@@ -14,16 +20,20 @@ class CampoMinadoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Campo campo = Campo(linha: 0, coluna: 0);
+    Tabuleiro tabuleiro = Tabuleiro(
+      linhas: 10,
+      colunas: 10,
+      quantidadeBombas: 10,
+    );
 
     return MaterialApp(
       home: Scaffold(
         appBar: ResultadoWidget(onReiniciar: _reiniciar),
         body: Container(
-          child: CampoWidget(
-            campo: campo,
-            onAbrir: _abrir(campo),
-            onAlternarMarcacao: _alternarMarcacao(campo),
+          child: TabuleiroWidget(
+            tabuleiro: tabuleiro,
+            onAbrir: _abrir,
+            onAlternarMarcacao: _alternarMarcacao,
           ),
         ),
       ),

@@ -12,6 +12,14 @@ class CampoMinadoPage extends StatefulWidget {
 }
 
 class _CampoMinadoPageState extends State<CampoMinadoPage> {
+  final bool? _venceu = null;
+
+  final Tabuleiro _tabuleiro = Tabuleiro(
+    linhas: 15,
+    colunas: 12,
+    quantidadeBombas: 4,
+  );
+
   void _reiniciar() {}
 
   void _abrir(Campo campo) {}
@@ -20,18 +28,12 @@ class _CampoMinadoPageState extends State<CampoMinadoPage> {
 
   @override
   Widget build(BuildContext context) {
-    Tabuleiro tabuleiro = Tabuleiro(
-      linhas: 10,
-      colunas: 10,
-      quantidadeBombas: 10,
-    );
-
     return MaterialApp(
       home: Scaffold(
-        appBar: ResultadoWidget(onReiniciar: _reiniciar),
+        appBar: ResultadoWidget(venceu: _venceu, onReiniciar: _reiniciar),
         body: Container(
           child: TabuleiroWidget(
-            tabuleiro: tabuleiro,
+            tabuleiro: _tabuleiro,
             onAbrir: _abrir,
             onAlternarMarcacao: _alternarMarcacao,
           ),

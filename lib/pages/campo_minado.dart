@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minesweeper/components/resultado_widget.dart';
 
 class CampoMinadoPage extends StatelessWidget {
   const CampoMinadoPage({super.key});
@@ -7,7 +8,7 @@ class CampoMinadoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('Campo Minado')),
+        appBar: ResultadoWidget(),
         body: Center(child: Text('Tabuleiro')),
       ),
     );

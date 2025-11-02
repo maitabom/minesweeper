@@ -14,17 +14,12 @@ class CampoMinadoPage extends StatefulWidget {
 
 class _CampoMinadoPageState extends State<CampoMinadoPage> {
   bool? _venceu;
-
-  final Tabuleiro _tabuleiro = Tabuleiro(
-    linhas: 15,
-    colunas: 12,
-    quantidadeBombas: 4,
-  );
+  Tabuleiro? _tabuleiro;
 
   void _reiniciar() {
     setState(() {
       _venceu = null;
-      _tabuleiro.reiniciar();
+      _tabuleiro?.reiniciar();
     });
   }
 
@@ -35,12 +30,12 @@ class _CampoMinadoPageState extends State<CampoMinadoPage> {
       try {
         campo.abrir();
 
-        if (_tabuleiro.resolvido) {
+        if (_tabuleiro!.resolvido) {
           _venceu = true;
         }
       } on ExplosaoException {
         _venceu = false;
-        _tabuleiro.revelarBombas();
+        _tabuleiro?.revelarBombas();
       }
     });
   }
@@ -51,10 +46,26 @@ class _CampoMinadoPageState extends State<CampoMinadoPage> {
 
       campo.alternarMarcacao();
 
-      if (_tabuleiro.resolvido) {
+      if (_tabuleiro!.resolvido) {
         _venceu = true;
       }
     });
+  }
+
+  Tabuleiro? _getTabuleiro(double largura, double altura) {
+    if (_tabuleiro == null) {
+      int quantidadeColunas = 12;
+      double tamanhoCampo = largura / quantidadeColunas;
+      int quantidadeLinhas = (altura / tamanhoCampo).floor();
+
+      _tabuleiro = Tabuleiro(
+        linhas: quantidadeLinhas,
+        colunas: quantidadeColunas,
+        quantidadeBombas: (quantidadeLinhas * quantidadeColunas * 0.2).round(),
+      );
+    }
+
+    return _tabuleiro;
   }
 
   @override
@@ -63,10 +74,18 @@ class _CampoMinadoPageState extends State<CampoMinadoPage> {
       home: Scaffold(
         appBar: ResultadoWidget(venceu: _venceu, onReiniciar: _reiniciar),
         body: Container(
-          child: TabuleiroWidget(
-            tabuleiro: _tabuleiro,
-            onAbrir: _abrir,
-            onAlternarMarcacao: _alternarMarcacao,
+          color: Colors.grey,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return TabuleiroWidget(
+                tabuleiro: _getTabuleiro(
+                  constraints.maxWidth,
+                  constraints.maxHeight,
+                )!,
+                onAbrir: _abrir,
+                onAlternarMarcacao: _alternarMarcacao,
+              );
+            },
           ),
         ),
       ),

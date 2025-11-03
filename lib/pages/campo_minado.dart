@@ -61,7 +61,7 @@ class _CampoMinadoPageState extends State<CampoMinadoPage> {
       _tabuleiro = Tabuleiro(
         linhas: quantidadeLinhas,
         colunas: quantidadeColunas,
-        quantidadeBombas: (quantidadeLinhas * quantidadeColunas * 0.2).round(),
+        quantidadeBombas: (quantidadeLinhas * quantidadeColunas * 0.1).round(),
       );
     }
 
